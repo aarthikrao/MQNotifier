@@ -6,4 +6,4 @@ An android app to provide notifications on events using RabbitMQ.
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
 ## Author:
-* [**Aarthik Rao**](https://aarthikrao.github.com)
+* [**Aarthik Rao**](https://aarthikrao.github.io/)
