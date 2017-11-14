@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/mqip"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="MQ IP"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/mqport"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/mqip"
+        android:layout_below="@+id/mqip"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="MQ Port"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/mqport"
+        android:layout_below="@+id/mqport"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/mqport"
+        android:layout_below="@id/username"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/queuename"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/password"
+        android:layout_below="@+id/password"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="Queue name"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="35dp"
+        android:background="@color/colorPrimary"
+        android:text="Button"
+        android:textColor="@android:color/background_light" />
+</RelativeLayout>
