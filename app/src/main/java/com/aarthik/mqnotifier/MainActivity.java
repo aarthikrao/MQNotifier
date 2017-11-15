@@ -3,6 +3,7 @@ package com.aarthik.mqnotifier;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -28,7 +29,11 @@ import java.util.concurrent.TimeoutException;
 
 public class MainActivity extends AppCompatActivity {
     private final static String QUEUE_NAME = "hello";
-///    Context context = getApplicationContext();
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
+    ///    Context context = getApplicationContext();
+    TextView DisplayText;
+    ConnectionFactory factory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,17 +41,66 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        final TextView DisplayText = (TextView) findViewById(R.id.displayText);
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("192.168.1.7");
+        connectAndListen();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        connectAndListen();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    private void setText(final TextView text, final String value) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                text.setText(value);
+                sendNotification("Hello", value);
+            }
+        });
+    }
+
+    private void connectAndListen() {
+        prefs = getSharedPreferences("MQNotifier", MODE_PRIVATE);
+        DisplayText = (TextView) findViewById(R.id.displayText);
+        factory = new ConnectionFactory();
+        String host = prefs.getString("mqip", "192.168.1.7");
+        factory.setHost(host);
+        String port = prefs.getString("mqport", "5672");
         factory.setPort(5672);
-        factory.setUsername("admin");
-        factory.setPassword("admin");
+        String username = prefs.getString("username", "admin");
+        factory.setUsername(username);
+        String password = prefs.getString("password", "admin");
+        factory.setPassword(password);
+        Log.i("Submit", " Credentials : " + host + " " + String.valueOf(port) + " " + username + " " + password + " ");
         factory.setAutomaticRecoveryEnabled(true);
         try {
             Connection connection = factory.newConnection();
             Channel channel = connection.createChannel();
-            channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+            channel.queueDeclare(prefs.getString("queuename", "hello"), false, false, false, null);
 //            channel.exchangeDeclare("logs","fanout");
             Log.i("", "Channel declared");
             Consumer consumer = new DefaultConsumer(channel) {
@@ -66,40 +120,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        {
 
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-    private void setText(final TextView text, final String value) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                text.setText(value);
-                sendNotification("Hello", value);
-            }
-        });
     }
 
     public void sendNotification(String title, String text) {

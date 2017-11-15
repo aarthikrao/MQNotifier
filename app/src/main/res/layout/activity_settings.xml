@@ -23,7 +23,7 @@
         android:layout_marginTop="15dp"
         android:ems="10"
         android:hint="MQ Port"
-        android:inputType="textPersonName" />
+        android:inputType="numberDecimal" />
 
     <EditText
         android:id="@+id/username"
@@ -58,14 +58,25 @@
         android:hint="Queue name"
         android:inputType="textPersonName" />
 
+    <EditText
+        android:id="@+id/textToLook"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/password"
+        android:layout_below="@+id/queuename"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="Events : Comma seperated"
+        android:inputType="textPersonName" />
+
     <Button
-        android:id="@+id/button"
+        android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="35dp"
         android:background="@color/colorPrimary"
-        android:text="Button"
+        android:text="Submit"
         android:textColor="@android:color/background_light" />
 </RelativeLayout>
